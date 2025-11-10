@@ -2,8 +2,10 @@ services:
   - type: web
     name: pest-classification
     env: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: python app.py
     envVars:
       - key: PYTHON_VERSION
-        value: 3.9.0
+        value: 3.9.18
+      - key: PORT
+        value: 10000
