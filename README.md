@@ -32,7 +32,7 @@ python app.py
 
 ## Model File
 The Vision Transformer model file (`vit_best.pth`) is not included in this repository due to size limitations. Please download it from:
-[Add your Google Drive link here]
+(https://drive.google.com/file/d/1zoaGv0626KqpwrVD4v2GjGZNyqYs-oW6/view?usp=sharing)
 
 ## Tech Stack
 - Python Flask
