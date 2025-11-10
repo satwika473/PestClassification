@@ -9,3 +9,4 @@ https://download.pytorch.org/whl/cpu/torch-1.9.0%2Bcpu-cp39-cp39-linux_x86_64.wh
 https://download.pytorch.org/whl/cpu/torchvision-0.10.0%2Bcpu-cp39-cp39-linux_x86_64.whl
 timm==0.4.12
 requests==2.28.1
+python-dotenv==0.19.0

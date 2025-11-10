@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import json
 import torch
 import torch.nn as nn
@@ -7,6 +8,9 @@ import torchvision.transforms as T
 from PIL import Image
 from flask import Flask, request, jsonify, render_template, send_file
 from flask_cors import CORS
+
+# Load environment variables from .env file
+load_dotenv()
 
 # --- Model Definition ---
 class InsectModel(nn.Module):
@@ -72,7 +76,32 @@ model = InsectModel(num_classes=len(class_names))
 model_path = os.path.join(os.path.dirname(__file__), "vit_best.pth")
 
 if not os.path.exists(model_path):
-    raise FileNotFoundError(f"Model file not found: {model_path}")
+    import requests
+    from urllib.parse import urlparse, parse_qs
+
+    print("Downloading model file...")
+    MODEL_URL = os.environ.get('MODEL_URL')
+    if not MODEL_URL:
+        raise ValueError("MODEL_URL environment variable is not set")
+
+    # Handle Google Drive links
+    if 'drive.google.com' in MODEL_URL:
+        parsed = urlparse(MODEL_URL)
+        if 'id' in parse_qs(parsed.query):
+            file_id = parse_qs(parsed.query)['id'][0]
+        else:
+            file_id = parsed.path.split('/')[-2]
+        MODEL_URL = f'https://drive.google.com/uc?export=download&id={file_id}'
+
+    response = requests.get(MODEL_URL, stream=True)
+    if response.status_code == 200:
+        with open(model_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
+        print("Model downloaded successfully!")
+    else:
+        raise FileNotFoundError(f"Failed to download model: {response.status_code}")
 
 state_dict = torch.load(model_path, map_location=device)
 model.load_state_dict(state_dict)
