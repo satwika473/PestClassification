@@ -1,0 +1,579 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.methodology-section {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 6rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.methodology-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill-opacity="0.04" fill="%23475569"><circle cx="20" cy="20" r="1.5"/><circle cx="80" cy="80" r="1.5"/><circle cx="50" cy="50" r="1"/></g></svg>');
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.methodology-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.methodology-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.methodology-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  color: #1e40af;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.methodology-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+  animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.methodology-description {
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  color: #64748b;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.methodology-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+
+.methodology-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.6s ease-out both;
+  position: relative;
+  overflow: hidden;
+}
+
+.methodology-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.methodology-card:hover::before {
+  transform: scaleX(1);
+}
+
+.methodology-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.methodology-card:nth-child(1) { animation-delay: 0.3s; }
+.methodology-card:nth-child(2) { animation-delay: 0.4s; }
+.methodology-card:nth-child(3) { animation-delay: 0.5s; }
+.methodology-card:nth-child(4) { animation-delay: 0.6s; }
+
+.card-step {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.card-description {
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.card-features {
+  list-style: none;
+  padding: 0;
+}
+
+.card-features li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  color: #475569;
+}
+
+.card-features li::before {
+  content: '✓';
+  color: #22c55e;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.architecture-section {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin: 3rem 0;
+  text-align: center;
+}
+
+.architecture-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 2rem;
+}
+
+.architecture-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
+}
+
+.model-specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.spec-item {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.spec-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3b82f6;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.spec-label {
+  color: #64748b;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Process Flow Section */
+.process-flow-section {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border-radius: 20px;
+  padding: 4rem 2rem;
+  margin: 4rem 0;
+  color: white;
+  text-align: center;
+}
+
+.flow-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.flow-description {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flow-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 4rem;
+}
+
+.flow-step {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  min-width: 120px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.flow-step:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px);
+}
+
+.flow-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.flow-step h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: white;
+}
+
+.flow-step p {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.flow-arrow {
+  font-size: 1.5rem;
+  color: #60a5fa;
+  font-weight: bold;
+}
+
+.technical-flow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  text-align: left;
+  margin-top: 3rem;
+}
+
+.tech-flow-details h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #60a5fa;
+}
+
+.tech-flow-details p {
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tech-features {
+  list-style: none;
+  padding: 0;
+}
+
+.tech-features li {
+  margin-bottom: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: flex-start;
+}
+
+.tech-features li::before {
+  content: '⚡';
+  margin-right: 0.5rem;
+  font-size: 1rem;
+  color: #60a5fa;
+}
+
+.tech-features strong {
+  color: #60a5fa;
+}
+
+@media (max-width: 768px) {
+  .methodology-section {
+    padding: 4rem 0;
+  }
+  
+  .methodology-container {
+    padding: 0 1rem;
+  }
+  
+  .methodology-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .methodology-card {
+    padding: 2rem;
+  }
+  
+  .architecture-section {
+    padding: 2rem;
+  }
+  
+  .model-specs {
+    grid-template-columns: 1fr;
+  }
+  
+  .process-flow-section {
+    padding: 2rem 1rem;
+  }
+  
+  .flow-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .flow-arrow {
+    transform: rotate(90deg);
+    margin: 0.5rem 0;
+  }
+  
+  .technical-flow {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .flow-step {
+    min-width: 100px;
+    padding: 1rem;
+  }
+}
+</style>
+
+
+<div class="methodology-section">
+  <div class="methodology-container">
+    <div class="methodology-header">
+      <div class="methodology-badge">🧠 Methodology</div>
+      <h1 class="methodology-title">How Our Methodology Works</h1>
+      <p class="methodology-description">
+        Our advanced pest classification system combines Vision Transformer (ViT) architecture with 
+        domain-aware summarization to provide comprehensive pest identification and intelligent 
+        agricultural insights for sustainable farming practices.
+      </p>
+    </div>
+
+    <div class="methodology-grid">
+      <div class="methodology-card">
+        <div class="card-step">1</div>
+        <h3 class="card-title">Image Preprocessing</h3>
+        <p class="card-description">
+          Input images are standardized, resized to 224x224 pixels, and normalized using ImageNet statistics 
+          to ensure consistent model performance across different image qualities.
+        </p>
+        <ul class="card-features">
+          <li>Automatic image resizing</li>
+          <li>Color space normalization</li>
+          <li>Data augmentation techniques</li>
+          <li>Quality enhancement filters</li>
+        </ul>
+      </div>
+
+      <div class="methodology-card">
+        <div class="card-step">2</div>
+        <h3 class="card-title">Vision Transformer (ViT)</h3>
+        <p class="card-description">
+          Our model uses a Vision Transformer with patch-based attention mechanism to analyze 
+          image features at multiple scales, enabling precise pest identification.
+        </p>
+        <ul class="card-features">
+          <li>Self-attention mechanisms</li>
+          <li>Patch embedding layers</li>
+          <li>Multi-head attention</li>
+          <li>Position encodings</li>
+        </ul>
+      </div>
+
+      <div class="methodology-card">
+        <div class="card-step">3</div>
+        <h3 class="card-title">Classification & Output</h3>
+        <p class="card-description">
+          The model outputs confidence scores for 40+ pest classes and provides detailed 
+          information including pest description and treatment recommendations.
+        </p>
+        <ul class="card-features">
+          <li>Multi-class classification</li>
+          <li>Confidence scoring</li>
+          <li>Treatment recommendations</li>
+          <li>Detailed pest information</li>
+        </ul>
+      </div>
+
+      <div class="methodology-card">
+        <div class="card-step">4</div>
+        <h3 class="card-title">Domain-Aware Summarization</h3>
+        <p class="card-description">
+          Advanced NLP system processes pest classification results and agricultural context to generate 
+          intelligent, domain-specific summaries and actionable farming recommendations.
+        </p>
+        <ul class="card-features">
+          <li>Context-aware text generation</li>
+          <li>Agricultural domain knowledge</li>
+          <li>Intelligent report synthesis</li>
+          <li>Actionable insights generation</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Process Flow Section -->
+    <div class="process-flow-section">
+      <h2 class="flow-title">🔄 Complete Processing Pipeline</h2>
+      <p class="flow-description">
+        End-to-end workflow from image upload to intelligent agricultural recommendations
+      </p>
+      
+      <div class="flow-container">
+        <div class="flow-step">
+          <div class="flow-icon">📸</div>
+          <h4>Image Input</h4>
+          <p>Upload crop image</p>
+        </div>
+        
+        <div class="flow-arrow">→</div>
+        
+        <div class="flow-step">
+          <div class="flow-icon">🔧</div>
+          <h4>Preprocessing</h4>
+          <p>Normalize & resize</p>
+        </div>
+        
+        <div class="flow-arrow">→</div>
+        
+        <div class="flow-step">
+          <div class="flow-icon">🧠</div>
+          <h4>ViT Analysis</h4>
+          <p>AI classification</p>
+        </div>
+        
+        <div class="flow-arrow">→</div>
+        
+        <div class="flow-step">
+          <div class="flow-icon">📊</div>
+          <h4>Results</h4>
+          <p>Pest identification</p>
+        </div>
+        
+        <div class="flow-arrow">→</div>
+        
+        <div class="flow-step">
+          <div class="flow-icon">📝</div>
+          <h4>Summarization</h4>
+          <p>Domain-aware insights</p>
+        </div>
+        
+        <div class="flow-arrow">→</div>
+        
+        <div class="flow-step">
+          <div class="flow-icon">🌾</div>
+          <h4>Action Plan</h4>
+          <p>Treatment recommendations</p>
+        </div>
+      </div>
+
+      <!-- Technical Flow Diagram -->
+      <div class="technical-flow">
+        <div class="tech-flow-image">
+          <img src="/image.png" 
+               alt="Domain-Aware Summarization Pipeline" 
+               style="width: 100%; max-width: 800px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);" />
+        </div>
+        <div class="tech-flow-details">
+          <h3>🔬 Advanced NLP Integration</h3>
+          <p>Our domain-aware summarization system leverages:</p>
+          <ul class="tech-features">
+            <li><strong>Agricultural Knowledge Base:</strong> Comprehensive pest management database</li>
+            <li><strong>Context Understanding:</strong> Crop type, season, and regional factors</li>
+            <li><strong>Intelligent Synthesis:</strong> Combines classification results with domain expertise</li>
+            <li><strong>Actionable Insights:</strong> Generates specific treatment recommendations</li>
+            <li><strong>Multi-modal Processing:</strong> Integrates visual and textual information</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="architecture-section">
+      <h2 class="architecture-title">🏗️ Model Architecture</h2>
+      <div style="background: #f1f5f9; padding: 2rem; border-radius: 16px; margin: 2rem 0;">
+        <h3 style="color: #475569; margin-bottom: 1rem;">Vision Transformer (ViT) Base Model</h3>
+        <img src="/architecture-1.png" 
+             alt="AI Neural Network Architecture" class="architecture-image" />
+        <p style="color: #64748b; margin-top: 1rem; font-style: italic;">
+          Transformer architecture adapted for computer vision tasks with patch-based image processing
+        </p>
+      </div>
+
+      <div class="model-specs">
+        <div class="spec-item">
+          <span class="spec-value">86M</span>
+          <span class="spec-label">Parameters</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">224×224</span>
+          <span class="spec-label">Input Size</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">16×16</span>
+          <span class="spec-label">Patch Size</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">12</span>
+          <span class="spec-label">Layers</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">768</span>
+          <span class="spec-label">Hidden Size</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">40</span>
+          <span class="spec-label">Output Classes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

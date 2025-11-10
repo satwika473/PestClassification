@@ -1,0 +1,355 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-green: #22c55e;
+  --dark-green: #16a34a;
+  --light-green: #dcfce7;
+  --text-dark: #1f2937;
+  --text-gray: #6b7280;
+  --bg-light: #f9fafb;
+  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: "Inter", sans-serif;
+}
+
+/* Container */
+.features-section {
+  background: linear-gradient(135deg, #f0f9f0 0%, #e8f5e8 100%);
+  padding: 6rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.features-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill-opacity="0.05" fill="%2322c55e"><circle cx="25" cy="25" r="2"/><circle cx="75" cy="75" r="2"/><circle cx="75" cy="25" r="1.5"/><circle cx="25" cy="75" r="1.5"/></g></svg>');
+  background-size: 80px 80px;
+  pointer-events: none;
+}
+
+.features-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Animated header */
+.header_badge {
+  display: inline-block;
+  background: var(--light-green);
+  color: var(--dark-green);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.header_title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+  background: linear-gradient(135deg, var(--text-dark), var(--primary-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.header_description {
+  max-width: 600px;
+  margin: 0 auto 4rem;
+  color: var(--text-gray);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+/* Enhanced grid layout */
+.card_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+/* Enhanced card styling with agricultural theme */
+.feature-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  position: relative;
+  transition: var(--transition);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(34, 197, 94, 0.1);
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-green), var(--dark-green));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover::before {
+  transform: scaleX(1);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+}
+
+.feature-card:nth-child(1) { animation-delay: 0.3s; }
+.feature-card:nth-child(2) { animation-delay: 0.4s; }
+.feature-card:nth-child(3) { animation-delay: 0.5s; }
+.feature-card:nth-child(4) { animation-delay: 0.6s; }
+
+.card-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.5rem;
+  background: var(--light-green);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  transition: var(--transition);
+}
+
+.feature-card:hover .card-icon {
+  background: var(--primary-green);
+  transform: scale(1.1) rotate(5deg);
+}
+
+.feature-card:hover .card-icon {
+  color: white;
+}
+
+.card_title {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  transition: var(--transition);
+}
+
+.feature-card:hover .card_title {
+  color: var(--primary-green);
+}
+
+.card_content {
+  color: var(--text-gray);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* Floating particles animation */
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--primary-green);
+  border-radius: 50%;
+  opacity: 0.3;
+}
+
+.particle-1 {
+  top: 20%;
+  left: 10%;
+  animation: float 8s ease-in-out infinite;
+}
+
+.particle-2 {
+  top: 60%;
+  right: 15%;
+  animation: float 6s ease-in-out infinite reverse;
+}
+
+.particle-3 {
+  bottom: 30%;
+  left: 20%;
+  animation: float 7s ease-in-out infinite;
+}
+
+/* Stats section */
+.stats-section {
+  margin-top: 4rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.stat-item {
+  text-align: center;
+  animation: countUp 2s ease-out both;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-green);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: var(--text-gray);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .features-section {
+    padding: 4rem 0;
+  }
+  
+  .features-container {
+    padding: 0 1rem;
+  }
+  
+  .card_grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .stats-section {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .feature-card {
+    padding: 2rem;
+  }
+}
+
+/* Hover effects for individual cards */
+.accuracy-card:hover .card-icon { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.speed-card:hover .card-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.insights-card:hover .card-icon { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.eco-card:hover .card-icon { background: linear-gradient(135deg, #10b981, #059669); }
+</style>
+
+<div class="features-section">
+  <!-- Floating particles -->
+  <div class="particle particle-1"></div>
+  <div class="particle particle-2"></div>
+  <div class="particle particle-3"></div>
+  
+  <div class="features-container">
+    <div class="header_badge">🌱 Modern Agriculture</div>
+    <h1 class="header_title">Smart Pest Detection Features</h1>
+    <p class="header_description">
+      Revolutionary technology that empowers farmers with instant, accurate pest identification
+      and actionable insights to protect crops and maximize yields sustainably.
+    </p>
+
+    <div class="card_grid">
+      <div class="feature-card accuracy-card">
+        <div class="card-icon">🎯</div>
+        <h2 class="card_title">96% Accuracy</h2>
+        <p class="card_content">
+          Advanced Vision Transformer model trained on thousands of pest images 
+          ensures precise classification across 40+ pest species.
+        </p>
+      </div>
+
+      <div class="feature-card speed-card">
+        <div class="card-icon">⚡</div>
+        <h2 class="card_title">Instant Results</h2>
+        <p class="card_content">
+          Upload an image and get comprehensive pest analysis in under 3 seconds,
+          enabling rapid response to protect your crops.
+        </p>
+      </div>
+
+      <div class="feature-card insights-card">
+        <div class="card-icon">📊</div>
+        <h2 class="card_title">Smart Insights</h2>
+        <p class="card_content">
+          Receive detailed pest information, damage assessment, and personalized
+          treatment recommendations for effective pest management.
+        </p>
+      </div>
+
+   
+    </div>
+
+    <!-- Stats section -->
+    <div class="stats-section">
+      <div class="stat-item">
+        <span class="stat-number">40</span>
+        <span class="stat-label">Pest Species</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">96%</span>
+        <span class="stat-label">Accuracy Rate</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">3s</span>
+        <span class="stat-label">Analysis Time</span>
+      </div>
+    </div>
+  </div>
+</div>

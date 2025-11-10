@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <title>Pest Details</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 50px auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+    }
+    .confidence {
+      text-align: center;
+      font-weight: bold;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    .section h3 {
+      color: #444;
+      border-left: 4px solid #2e7d32;
+      padding-left: 10px;
+    }
+    .section p {
+      color: #333;
+      line-height: 1.5;
+    }
+    .back-btn {
+      display: block;
+      width: 150px;
+      margin: 20px auto;
+      padding: 10px;
+      background: #2e7d32;
+      color: white;
+      text-align: center;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    .back-btn:hover {
+      background: #256428;
+    }
+  </style>
+</head>
+<body>
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='Navbar.css') }}">
+
+
+  <script>
+    document.getElementById("loginBtn").addEventListener("click", function () {
+      window.location.href = "/login"; 
+    });
+
+    document.getElementById("signupBtn").addEventListener("click", function () {
+      window.location.href = "/signup"; 
+    });
+  </script>
+
+  <div class="container">
+   
+
+    <h1 id="pestName">Pest Name</h1>
+    <div class="confidence" id="confidence"></div>
+
+    <div class="section">
+      <h3>Description</h3>
+      <p id="description" class="notranslate"></p>
+    </div>
+
+    <div class="section">
+      <h3>Preventive Measures</h3>
+      <p id="prevention"></p> 
+    </div>
+
+    <a href="/upload" class="back-btn">🔙 Back</a>
+  </div>
+
+  <!-- Google Translate Element -->
+  <div id="google_translate_element" style="display:none;"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'te,hi,fr,el,es',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <script>
+    // Function to get URL query params
+    function getQueryParam(key) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(key) || "";
+    }
+
+    // Fill data from URL
+    document.getElementById("pestName").innerText = getQueryParam("name");
+    document.getElementById("confidence").innerText = "Confidence: " + (parseFloat(getQueryParam("confidence")) * 100).toFixed(2) + "%";
+    document.getElementById("description").innerText = getQueryParam("description");
+    document.getElementById("prevention").innerText = getQueryParam("prevention");
+
+    // Language dropdown change (translate only preventive measures)
+    document.getElementById("language").addEventListener("change", function() {
+      const lang = this.value;
+      const preventionElem = document.getElementById("prevention");
+
+      // Store original English text
+      if (!preventionElem.dataset.original) {
+        preventionElem.dataset.original = preventionElem.innerText;
+      }
+
+      if (lang === "en") {
+        preventionElem.innerText = preventionElem.dataset.original;
+      } else {
+        // Use hidden Google Translate widget to translate preventive measures
+        const translateWidget = new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: lang}, 'google_translate_element');
+
+        // Replace text using GT
+        const tempDiv = document.createElement('div');
+        tempDiv.innerText = preventionElem.dataset.original;
+        document.body.appendChild(tempDiv);
+
+        // Automatically translate the text
+        new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: lang
+        }, tempDiv);
+
+        setTimeout(() => {
+          preventionElem.innerText = tempDiv.innerText;
+          document.body.removeChild(tempDiv);
+        }, 1500); // wait for translation to complete
+      }
+    });
+  </script>
+</body>
+</html>

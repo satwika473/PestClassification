@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pest Image Upload</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='Upload.css') }}">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-logo" style="cursor:pointer;" onclick="window.location.href='/'">
+      <span class="logo-icon">🌿</span> AgriGuard
+    </div>
+    <ul class="navbar-links">
+      <li><a href="/features">Features</a></li>
+      <li><a href="/">Reach Us</a></li>
+    </ul>
+    <div class="navbar-buttons">
+      <button class="btn-get-started" id="loginBtn">Login</button>
+    </div>
+    <div class="navbar-buttons">
+      <button class="btn-get-started" id="signupBtn">Sign Up</button>
+    </div>
+  </nav>
+
+  <script>
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      window.location.href = "/login";
+    });
+    document.getElementById("signupBtn").addEventListener("click", () => {
+      window.location.href = "/signup";
+    });
+  </script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='Navbar.css') }}">
+
+  <!-- Upload Section -->
+  <div class="pest-container">
+    <div class="pest-card">
+      <h2 class="pest-title">IDENTIFY THE PEST THAT WAS CAUGHT BY YOUR PLANT</h2>
+      <p class="pest-subtitle">Upload an image of a pest.</p>
+
+      <label class="custom-file-upload">
+        <input type="file" id="fileInput" accept="image/*" />
+        Choose File
+      </label>
+      <span id="fileName" class="file-name"></span>
+
+      <div id="imagePreview" class="image-preview" style="display: none;">
+        <img id="previewImg" alt="Pest Preview" />
+      </div>
+
+      <button class="predict-btn" id="predictBtn">Predict</button>
+      <p id="result" class="prediction-result"></p>
+
+      <!-- View Details Button (Hidden by default) -->
+      <button id="viewDetailsBtn" class="predict-btn" style="display:none; background-color:#2e7d32;">View Details</button>
+    </div>
+  </div>
+
+  <script>
+    const BACKEND_URL = "/predict";
+    let selectedFile = null;
+    let pestData = null; // store prediction data for redirect
+
+    const fileInput = document.getElementById("fileInput");
+    const fileName = document.getElementById("fileName");
+    const imagePreview = document.getElementById("imagePreview");
+    const previewImg = document.getElementById("previewImg");
+    const predictBtn = document.getElementById("predictBtn");
+    const resultText = document.getElementById("result");
+    const viewDetailsBtn = document.getElementById("viewDetailsBtn");
+
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        selectedFile = file;
+        fileName.textContent = file.name;
+        previewImg.src = URL.createObjectURL(file);
+        imagePreview.style.display = "block";
+        resultText.innerText = "";
+        viewDetailsBtn.style.display = "none"; // hide details button when new file selected
+      }
+    });
+
+    predictBtn.addEventListener("click", async () => {
+      if (!selectedFile) {
+        alert("Please upload a pest image first!");
+        return;
+      }
+
+      resultText.innerText = "🔍 Predicting... Please wait.";
+      let formData = new FormData();
+      formData.append("image", selectedFile);
+
+      try {
+        let res = await fetch(BACKEND_URL, { method: "POST", body: formData });
+        let data = await res.json();
+
+        if (res.ok && data.prediction) {
+          let predictionText = "";
+
+          if (typeof data.confidence !== "undefined") {
+            predictionText += `🔍 Confidence: ${(data.confidence * 100).toFixed(2)}%\n`;
+          }
+
+          if (data.prediction.toLowerCase() !== "not a pest") {
+            predictionText = `✅ Predicted Pest: ${data.prediction}\n` + predictionText;
+            pestData = data; // store for redirection
+            viewDetailsBtn.style.display = "inline-block"; // show details button
+          } else {
+            predictionText = `🪴 Not a pest.\n` + predictionText;
+            viewDetailsBtn.style.display = "none";
+          }
+
+          resultText.innerText = predictionText.trim();
+        } else {
+          resultText.innerText = "❌ Error: " + (data.error || "Unknown error");
+        }
+      } catch (err) {
+        console.error(err);
+        resultText.innerText = "❌ Failed to connect to server.";
+      }
+    });
+
+    // Redirect to description page on button click
+    viewDetailsBtn.addEventListener("click", () => {
+      if (pestData) {
+        window.location.href = `/Description?name=${encodeURIComponent(pestData.prediction)}&confidence=${encodeURIComponent(pestData.confidence)}&description=${encodeURIComponent(pestData.description)}&prevention=${encodeURIComponent(pestData.prevention)}`;
+      }
+    });
+  </script>
+</body>
+</html>

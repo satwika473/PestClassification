@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart Agricultural Pest Classification</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='Navbar.css') }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Roboto:wght@300;400;500;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='Home.css') }}">
+  
+  <style>
+    /* Smooth scrolling for anchor links */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Add some spacing between sections */
+    .section2 {
+      scroll-margin-top: 80px; /* Offset for navbar height */
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-logo" onclick="window.location.href='/'" style="cursor:pointer;">
+      <span class="logo-icon">🌿</span> AgriGuard
+    </div>
+
+    <button class="navbar-toggle" id="navbarToggle">&#9776;</button>
+    <ul class="navbar-links" id="navbarLinks">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#methodology">Methodology</a></li>
+      <li><a href="#dataset">Dataset</a></li>
+      <li><a href="#about">Contact</a></li>
+    </ul>
+
+    <div class="navbar-buttons" id="navbarButtons">
+      <button class="btn-get-started" id="tryUploadBtn">Try Upload</button>
+    </div>
+  </nav>
+
+  <script>
+    document.getElementById("tryUploadBtn").addEventListener("click", () => window.location.href = "/upload");
+    const toggleBtn = document.getElementById("navbarToggle");
+    const links = document.getElementById("navbarLinks");
+    const buttons = document.getElementById("navbarButtons");
+    let isOpen = false;
+    toggleBtn.addEventListener("click", () => {
+      isOpen = !isOpen;
+      links.classList.toggle("show");
+      buttons.classList.toggle("show");
+      toggleBtn.innerHTML = isOpen ? "&times;" : "&#9776;";
+    });
+  </script>
+
+  <!-- MAIN SECTION with layout like your reference -->
+  <main>
+    <div class="text-section">
+      <span>Smart Agriculture</span>
+      <h1>Intelligent Pest Classification System</h1>
+      <hr>
+      <p>Detect and classify crop pests instantly with our to protect yields, reduce pesticides, and grow more sustainably.</p>
+      <a href="/upload">Try Pest Image ▶️</a>
+    </div>
+
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <!-- Slide 1: Upload Image -->
+        <div class="swiper-slide swiper-slide--one">
+          <div class="slide-overlay">
+            <h2>Upload Image</h2>
+            <p>Take a photo of the affected plant or upload an existing image. Our model will analyze it and identify possible pests.</p>
+            <a class="cta" href="{{ url_for('upload_page') }}">🔍 Detect Now</a>
+          </div>
+        </div>
+
+        <!-- Slide 2: AI Detection -->
+        <div class="swiper-slide swiper-slide--two">
+          <div class="slide-overlay">
+            <h2>AI Detection</h2>
+            <p>State-of-the-art ViT model classifies pests across 40+ species and returns confidence scores and prevention tips.</p>
+            <a class="cta" href="{{ url_for('upload_page') }}">🔎 Try AI Detection</a>
+          </div>
+        </div>
+
+        <!-- Slide 3: Pest Guidance -->
+        <div class="swiper-slide swiper-slide--three">
+          <div class="slide-overlay">
+            <h2>Pest Guidance</h2>
+            <p>Get immediate actionable guidance: pest description, severity, and recommended organic or chemical controls.</p>
+            <a class="cta" href="{{ url_for('upload_page') }}">📖 View Recommendations</a>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+
+    <img src="https://cdn-icons-png.flaticon.com/512/2907/2907261.png" alt="" class="bg">
+    <img src="https://cdn-icons-png.flaticon.com/512/7662/7662089.png" alt="" class="bg2">
+  </main>
+
+  <!-- FEATURES SECTION -->
+  <div class="section2" id="features">
+    {% include 'Features.html' %}
+  </div>
+
+  <!-- METHODOLOGY SECTION -->
+  <div class="section2" id="methodology">
+    {% include 'Methodology.html' %}
+  </div>
+
+  <!-- DATASET SECTION -->
+  <div class="section2" id="dataset">
+    {% include 'Dataset.html' %}
+  </div>
+
+  <!-- CONTACT SECTION -->
+  <div class="section2" id="about">
+    {% include 'Contact.html' %}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+    var swiper = new Swiper(".swiper", {
+      effect: "coverflow",
+      grabCursor: true,
+      centeredSlides: true,
+      coverflowEffect: {
+        rotate: 0,
+        stretch: 0,
+        depth: 100,
+        modifier: 3,
+        slideShadows: true
+      },
+      loop: true,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+      },
+      speed: 800,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        640: { slidesPerView: 1 },
+        1024: { slidesPerView: 2 },
+        1560: { slidesPerView: 3 }
+      }
+    });
+  </script>
+</body>
+</html>

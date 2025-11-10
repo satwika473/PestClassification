@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navbar</title>
+  <link rel="stylesheet" href="../static/Navbar.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-logo" onclick="window.location.href='/'" style="cursor:pointer;">
+      <span class="logo-icon">🌿</span> AgriGuard
+    </div>
+
+    <!-- Hamburger toggle button -->
+    <button class="navbar-toggle" id="navbarToggle">&#9776;</button>
+
+    <!-- Links -->
+    <ul class="navbar-links" id="navbarLinks">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#about">Reach Us</a></li>
+    </ul>
+
+    <!-- Buttons -->
+    <div class="navbar-buttons" id="navbarButtons">
+      <button class="btn-get-started" id="loginBtn">Login</button>
+      <button class="btn-get-started" id="signupBtn">Sign Up</button>
+    </div>
+  </nav>
+  
+  <script>
+    // Redirect buttons
+    document.getElementById("loginBtn").addEventListener("click", function () {
+      window.location.href = "Login.html"; // Change to your login page path
+    });
+
+    document.getElementById("signupBtn").addEventListener("click", function () {
+      window.location.href = "Signup.html"; // Change to your signup page path
+    });
+
+    // Toggle menu for mobile
+    const toggleBtn = document.getElementById("navbarToggle");
+    const links = document.getElementById("navbarLinks");
+    const buttons = document.getElementById("navbarButtons");
+    let isOpen = false;
+
+    toggleBtn.addEventListener("click", () => {
+      isOpen = !isOpen;
+      links.classList.toggle("show");
+      buttons.classList.toggle("show");
+      toggleBtn.innerHTML = isOpen ? "&times;" : "&#9776;"; // Switch icon
+    });
+  </script>
+</body>
+</html>

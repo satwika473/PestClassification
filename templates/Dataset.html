@@ -1,0 +1,430 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.dataset-section {
+  background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 50%, #fecaca 100%);
+  padding: 6rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.dataset-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill-opacity="0.05" fill="%23dc2626"><circle cx="15" cy="15" r="2"/><circle cx="85" cy="85" r="2"/><circle cx="85" cy="15" r="1.5"/><circle cx="15" cy="85" r="1.5"/></g></svg>');
+  background-size: 70px 70px;
+  pointer-events: none;
+}
+
+.dataset-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.dataset-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.dataset-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #fef3c7, #fed7aa);
+  color: #d97706;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.dataset-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #92400e;
+  animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.dataset-description {
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  color: #a16207;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.6s ease-out both;
+  border-top: 4px solid transparent;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card:nth-child(1) { 
+  animation-delay: 0.3s;
+  border-top-color: #ef4444;
+}
+.stat-card:nth-child(2) { 
+  animation-delay: 0.4s;
+  border-top-color: #f59e0b;
+}
+.stat-card:nth-child(3) { 
+  animation-delay: 0.5s;
+  border-top-color: #22c55e;
+}
+.stat-card:nth-child(4) { 
+  animation-delay: 0.6s;
+  border-top-color: #3b82f6;
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #dc2626;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.stat-label {
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.875rem;
+}
+
+.dataset-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-bottom: 4rem;
+  align-items: center;
+}
+
+.content-text {
+  animation: fadeInUp 0.6s ease-out 0.7s both;
+}
+
+.content-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #92400e;
+  margin-bottom: 1.5rem;
+}
+
+.content-description {
+  color: #a16207;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+}
+
+.feature-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  color: #a16207;
+}
+
+.feature-list li::before {
+  content: '🌾';
+  margin-right: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.content-image {
+  animation: fadeInUp 0.6s ease-out 0.8s both;
+}
+
+.sample-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.sample-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.sample-image:hover {
+  transform: scale(1.05);
+}
+
+.pest-gallery {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin: 3rem 0;
+}
+
+.gallery-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #92400e;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.pest-card {
+  background: #fef3c7;
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.pest-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.pest-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.pest-name {
+  font-weight: 600;
+  color: #92400e;
+  margin-bottom: 0.5rem;
+}
+
+.pest-category {
+  color: #a16207;
+  font-size: 0.875rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .dataset-section {
+    padding: 4rem 0;
+  }
+  
+  .dataset-container {
+    padding: 0 1rem;
+  }
+  
+  .dataset-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .sample-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pest-gallery {
+    padding: 2rem;
+  }
+}
+</style>
+
+<div class="dataset-section">
+  <div class="dataset-container">
+    <div class="dataset-header">
+      <div class="dataset-badge">📊 Dataset Information</div>
+      <h1 class="dataset-title">Comprehensive Pest Dataset</h1>
+      <p class="dataset-description">
+        Our model is trained on a carefully curated dataset of agricultural pest images, 
+        featuring diverse pest species commonly found in crop fields worldwide.
+      </p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🐛</div>
+        <span class="stat-number">40</span>
+        <span class="stat-label">Pest Species</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📸</div>
+        <span class="stat-number">10K+</span>
+        <span class="stat-label">Training Images</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <span class="stat-number">96%</span>
+        <span class="stat-label">Accuracy Rate</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🌾</div>
+        <span class="stat-number">Rice</span>
+        <span class="stat-label">Crop Types</span>
+      </div>
+    </div>
+
+    <div class="dataset-content">
+      <div class="content-text">
+        <h2 class="content-title">🔬 Dataset Composition</h2>
+        <p class="content-description">
+          Our dataset includes high-quality images of various agricultural pests captured 
+          in real farming conditions. Each image is carefully labeled and verified by 
+          agricultural experts to ensure maximum accuracy.
+        </p>
+        <ul class="feature-list">
+          <li>High-resolution pest images (224x224 standardized)</li>
+          <li>Multiple angles and lighting conditions</li>
+          <li>Expert-verified classifications</li>
+          <li>Balanced distribution across species</li>
+          <li>Real field conditions captured</li>
+          <li>Seasonal variation included</li>
+        </ul>
+      </div>
+      <div class="content-image">
+        <div class="sample-grid">
+          <img src="https://images.unsplash.com/photo-1628944682084-831f35256163?w=300&h=200&fit=crop" 
+               alt="Agricultural pest sample" class="sample-image" />
+          <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=300&h=200&fit=crop" 
+               alt="Crop inspection" class="sample-image" />
+          <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=200&fit=crop" 
+               alt="Healthy crops" class="sample-image" />
+          <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=300&h=200&fit=crop" 
+               alt="Smart farming" class="sample-image" />
+        </div>
+      </div>
+    </div>
+
+    <div class="pest-gallery">
+      <h2 class="gallery-title">🦗 Sample Pest Species in Dataset</h2>
+      <div class="gallery-grid">
+        <div class="pest-card">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Pentatomidae_-_Dolycoris_baccarum-001.JPG/1200px-Pentatomidae_-_Dolycoris_baccarum-001.JPG" 
+               alt="Dolycoris baccarum" class="pest-image" />
+          <div class="pest-name">Dolycoris baccarum</div>
+          <div class="pest-category">Shield Bug</div>
+        </div>
+        <div class="pest-card">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Nilaparvata_lugens_439632934.jpg/500px-Nilaparvata_lugens_439632934.jpg" 
+               alt="Nilaparvata lugens" class="pest-image" />
+          <div class="pest-name">Nilaparvata lugens</div>
+          <div class="pest-category">Brown Planthopper</div>
+        </div>
+        <div class="pest-card">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Scotinophara_coarctata_%28Fabricius%2C_1798%29.png/500px-Scotinophara_coarctata_%28Fabricius%2C_1798%29.png" 
+               alt="Scotinophara lurida" class="pest-image" />
+          <div class="pest-name">Scotinophara lurida</div>
+          <div class="pest-category">Black Bug</div>
+        </div>
+        <div class="pest-card">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Silverleaf_whitefly.jpg/500px-Silverleaf_whitefly.jpg" 
+               alt="Bemisia tabaci" class="pest-image" />
+          <div class="pest-name">Bemisia tabaci</div>
+          <div class="pest-category">Whitefly</div>
+        </div>
+        <div class="pest-card">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Spodoptera_litura_%2824045593674%29.jpg/500px-Spodoptera_litura_%2824045593674%29.jpg" 
+               alt="Spodoptera litura" class="pest-image" />
+          <div class="pest-name">Spodoptera litura</div>
+          <div class="pest-category">Armyworm</div>
+        </div>
+        <div class="pest-card">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Pieris_sp_3.jpg/500px-Pieris_sp_3.jpg" 
+               alt="Pieris rapae" class="pest-image" />
+          <div class="pest-name">Pieris rapae</div>
+          <div class="pest-category">Cabbage White</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dataset-content">
+      <div class="content-image">
+        <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+          <h3 style="color: #92400e; margin-bottom: 1rem; text-align: center;">📈 Training Process</h3>
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop" 
+               alt="AI Training Process" style="width: 100%; border-radius: 12px;" />
+          <p style="color: #a16207; text-align: center; margin-top: 1rem; font-style: italic;">
+            Model training with data augmentation and validation splits
+          </p>
+        </div>
+      </div>
+      <div class="content-text">
+        <h2 class="content-title">🎯 Data Quality & Validation</h2>
+        <p class="content-description">
+          To ensure the highest quality dataset, we implement rigorous validation processes 
+          including expert review, cross-validation, and continuous dataset refinement 
+          based on real-world performance feedback.
+        </p>
+        <ul class="feature-list">
+          <li>80/20 train-validation split</li>
+          <li>Stratified sampling for balanced classes</li>
+          <li>Data augmentation for robustness</li>
+          <li>Expert agricultural validation</li>
+          <li>Continuous dataset updates</li>
+          <li>Cross-regional pest variants</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

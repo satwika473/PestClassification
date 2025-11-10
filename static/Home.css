@@ -1,0 +1,579 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* ==== SECTION1 MAIN CONTAINER ==== */
+.section1 {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 50%, #e8f5e8 100%);
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(76, 175, 80, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(139, 195, 74, 0.1) 0%, transparent 50%);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Roboto:wght@300;400;500;900&display=swap");
+
+main {
+  position: relative;
+  width: calc(min(90rem, 90%));
+  margin: 0 auto;
+  min-height: 100vh;
+  column-gap: 3rem;
+  padding-block: min(20vh, 3rem);
+}
+
+.bg, .bg2 {
+  position: fixed;
+  z-index: -1;
+  opacity: 0.1;
+}
+
+.bg {
+  top: -4rem;
+  left: -8rem;
+  width: 200px;
+}
+
+.bg2 {
+  bottom: -2rem;
+  right: -3rem;
+  width: 150px;
+}
+
+.text-section span {
+  text-transform: uppercase;
+  color: #717171;
+  font-size: 1rem;
+  letter-spacing: 1.5px;
+}
+
+.text-section h1 {
+  text-transform: capitalize;
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.8rem, 3vw + 1rem, 4rem);
+  background-image: linear-gradient(45deg, #3a7d44, #0d3b24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-section hr {
+  height: 0.25rem;
+  width: 6rem;
+  background: #3a7d44;
+  border: none;
+  margin: 1rem 0 1.5rem;
+}
+
+.text-section p {
+  line-height: 1.6;
+  color: #555;
+  max-width: 550px;
+}
+
+.text-section a {
+  display: inline-block;
+  margin-top: 2rem;
+  text-decoration: none;
+  color: #3a7d44;
+  border: 2px solid #3a7d44;
+  padding: 0.6rem 1.8rem;
+  border-radius: 3rem;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.text-section a:hover {
+  background: #3a7d44;
+  color: #fff;
+}
+
+.swiper {
+  width: 100%;
+  padding-top: 3rem;
+}
+
+.swiper-slide {
+  width: 18rem;
+  height: 26rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: flex-start;
+  border-radius: 1rem;
+  overflow: hidden;
+  color: #fff;
+}
+
+.swiper-slide h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 1.5rem;
+  text-transform: uppercase;
+}
+
+.swiper-slide p {
+  padding: 0 1.5rem;
+  font-size: 0.9rem;
+  color: #ddd;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  display: -webkit-box;
+}
+
+.swiper-slide a {
+  margin: 1rem 1.5rem 2rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* Overlay content shown on top of each slide */
+.slide-overlay {
+  position: absolute;
+  left: 2.5rem;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  color: #fff;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.35));
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  max-width: 80%;
+}
+
+.slide-overlay h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.6px;
+}
+
+.slide-overlay p {
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  color: rgba(255,255,255,0.9);
+}
+
+.cta {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+.cta:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+.swiper-slide--one {
+  background: linear-gradient(to top, #0f2027, #203a4300), url("https://sageuniversity.edu.in/assets/images/blog/role-of-artificial-intelligence-in-agriculture.jpg") no-repeat center/cover;
+}
+.swiper-slide--two {
+  background: linear-gradient(to top, #0f2027, #203a4300), url("https://cdn3.saiwa.ai/Crop_Pest_Detection_AI_9335163d1b.webp") no-repeat center/cover;
+}
+.swiper-slide--three {
+  background: linear-gradient(to top, #0f2027, #203a4300), url("https://cdn.pixabay.com/photo/2025/06/16/19/29/insects-9663936_1280.jpg") no-repeat center/cover;
+}
+.swiper-slide--four {
+  background: linear-gradient(to top, #0f2027, #203a4300), url("https://images.unsplash.com/photo-1528475784006-7e60c8028a8a?auto=format&fit=crop&w=800&q=80") no-repeat center/cover;
+}
+
+@media (min-width: 768px) {
+  main {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.section1::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill-opacity="0.03" fill="%23388e3c"><circle cx="20" cy="20" r="2"/><circle cx="80" cy="20" r="2"/><circle cx="20" cy="80" r="2"/><circle cx="80" cy="80" r="2"/><circle cx="50" cy="50" r="1"/></g></svg>');
+  pointer-events: none;
+}
+
+.main {
+  width: 90%;
+  margin: 0 auto;
+  display: grid;
+  padding: 5rem 3rem 0 3rem;
+  grid-template-columns: 1fr 1fr; /* text left, image right */
+  column-gap: 3rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* ==== TEXT AREA ==== */
+.txt {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: center;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.txt h2 {
+  font-size: 3.8rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  font-weight: 700;
+  font-family: "Playfair Display", serif;
+  background: linear-gradient(135deg, #2e7d32, #388e3c, #4caf50);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.txt p {
+  font-size: 1.2rem;
+  color: #2e7d32;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+  font-weight: 400;
+}
+/* ==== BUTTONS ==== */
+.buttons {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.button {
+  border-radius: 50px;
+  padding: 1.2rem 2.5rem;
+  border: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, #4caf50, #66bb6a);
+  color: white;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:hover {
+  background: linear-gradient(135deg, #388e3c, #4caf50);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.button:hover::before {
+  left: 100%;
+}
+
+/* ==== IMAGE AREA - CAROUSEL ==== */
+.pictures {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 500px;
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-slide {
+  position: absolute;
+  width: 280px;
+  height: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
+  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+  opacity: 0.7;
+  transform: scale(0.8) translateX(0) rotateY(45deg);
+  z-index: 1;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+/* Active slide (center, bigger) */
+.carousel-slide.active {
+  width: 350px;
+  height: 450px;
+  opacity: 1;
+  transform: scale(1) translateX(0) rotateY(0deg);
+  z-index: 3;
+  box-shadow: 0 20px 50px rgba(76, 175, 80, 0.3);
+}
+
+/* Previous slide (left, smaller) */
+.carousel-slide.prev {
+  transform: scale(0.75) translateX(-120px) rotateY(45deg);
+  opacity: 0.6;
+  z-index: 2;
+}
+
+/* Next slide (right, smaller) */
+.carousel-slide.next {
+  transform: scale(0.75) translateX(120px) rotateY(-45deg);
+  opacity: 0.6;
+  z-index: 2;
+}
+
+/* Carousel indicators */
+.carousel-indicators {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 4;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(76, 175, 80, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.indicator.active {
+  background: #4caf50;
+  transform: scale(1.2);
+  border: 2px solid rgba(76, 175, 80, 0.5);
+}
+
+.indicator:hover {
+  background: #66bb6a;
+  transform: scale(1.1);
+}
+
+/* ==== SECTION2 ==== */
+.section2 {
+  width: 100%;
+  padding: 4rem 0;
+  background: linear-gradient(180deg, rgba(232, 245, 232, 0.5) 0%, rgba(255, 255, 255, 0.8) 100%);
+}
+
+/* ==== AGRICULTURE DECORATIVE ELEMENTS ==== */
+.leaf-decoration {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234caf50"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7.5,15 12.5,16 16.5,15C20.5,14 22,3 22,3L17,8Z"/></svg>') no-repeat center;
+  opacity: 0.1;
+}
+
+.leaf-decoration.leaf-1 {
+  top: 10%;
+  left: 5%;
+  transform: rotate(15deg);
+}
+
+.leaf-decoration.leaf-2 {
+  top: 70%;
+  right: 8%;
+  transform: rotate(-25deg);
+}
+
+.leaf-decoration.leaf-3 {
+  bottom: 15%;
+  left: 10%;
+  transform: rotate(45deg);
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 1024px) {
+  .main {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 3rem;
+  }
+  
+  .txt {
+    padding: 25px;
+    margin-bottom: 2rem;
+  }
+  
+  .txt h2 {
+    font-size: 3rem;
+  }
+  
+  .txt p {
+    font-size: 1.1rem;
+  }
+  
+  .pictures {
+    margin-top: 0;
+    max-width: 500px;
+    height: 400px;
+  }
+  
+  .carousel-slide {
+    width: 220px;
+    height: 320px;
+  }
+  
+  .carousel-slide.active {
+    width: 280px;
+    height: 380px;
+  }
+  
+  .carousel-slide.prev,
+  .carousel-slide.next {
+    transform: scale(0.7) translateX(-100px) rotateY(45deg);
+  }
+  
+  .carousel-slide.next {
+    transform: scale(0.7) translateX(100px) rotateY(-45deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .section1 {
+    padding: 1rem;
+  }
+  
+  .main {
+    padding: 3rem 1rem 0 1rem;
+  }
+  
+  .txt h2 {
+    font-size: 2.5rem;
+  }
+  
+  .txt p {
+    font-size: 1rem;
+  }
+  
+  .pictures {
+    max-width: 400px;
+    height: 300px;
+  }
+  
+  .carousel-slide {
+    width: 180px;
+    height: 260px;
+  }
+  
+  .carousel-slide.active {
+    width: 220px;
+    height: 300px;
+  }
+  
+  .carousel-slide.prev,
+  .carousel-slide.next {
+    transform: scale(0.65) translateX(-80px) rotateY(40deg);
+  }
+  
+  .carousel-slide.next {
+    transform: scale(0.65) translateX(80px) rotateY(-40deg);
+  }
+  
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .button {
+    width: 100%;
+    max-width: 280px;
+    padding: 1rem 2rem;
+  }
+  
+  .leaf-decoration {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .txt h2 {
+    font-size: 2rem;
+  }
+  
+  .txt {
+    padding: 20px;
+  }
+  
+  .pictures {
+    max-width: 350px;
+    height: 250px;
+  }
+  
+  .carousel-slide {
+    width: 140px;
+    height: 200px;
+  }
+  
+  .carousel-slide.active {
+    width: 180px;
+    height: 240px;
+  }
+  
+  .carousel-slide.prev,
+  .carousel-slide.next {
+    transform: scale(0.6) translateX(-60px) rotateY(35deg);
+  }
+  
+  .carousel-slide.next {
+    transform: scale(0.6) translateX(60px) rotateY(-35deg);
+  }
+}

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pest Image Upload - AgriGuard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='Navbar.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='Upload.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Agricultural Theme Styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f0f9f0 0%, #e8f5e8 50%, #dcfce7 100%);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Background Pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill-opacity="0.03" fill="%2322c55e"><circle cx="25" cy="25" r="2"/><circle cx="75" cy="75" r="2"/><circle cx="75" cy="25" r="1.5"/><circle cx="25" cy="75" r="1.5"/></g></svg>');
+      background-size: 80px 80px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Floating Elements */
+    .floating-element {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .floating-leaf-1 {
+      top: 10%;
+      left: 10%;
+      font-size: 2rem;
+      color: rgba(34, 197, 94, 0.3);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-leaf-2 {
+      top: 20%;
+      right: 15%;
+      font-size: 1.5rem;
+      color: rgba(16, 185, 129, 0.3);
+      animation: float 8s ease-in-out infinite reverse;
+    }
+
+    .floating-leaf-3 {
+      bottom: 15%;
+      left: 5%;
+      font-size: 1.8rem;
+      color: rgba(5, 150, 105, 0.3);
+      animation: float 7s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+    }
+
+    /* Enhanced Upload Container */
+    .pest-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .pest-card {
+      background: white;
+      border-radius: 24px;
+      padding: 3rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(34, 197, 94, 0.1);
+    }
+
+    .pest-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      border-radius: 24px 24px 0 0;
+    }
+
+    .pest-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .pest-title::after {
+      content: '🔍🌱';
+      display: block;
+      font-size: 2rem;
+      margin-top: 0.5rem;
+    }
+
+    .pest-subtitle {
+      color: #6b7280;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    /* Enhanced File Upload */
+    .custom-file-upload {
+      display: inline-block;
+      padding: 1.5rem 3rem;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      border-radius: 16px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .custom-file-upload::before {
+      content: '📁 ';
+      margin-right: 0.5rem;
+    }
+
+    .custom-file-upload:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+      background: linear-gradient(135deg, #16a34a, #15803d);
+    }
+
+    .custom-file-upload input[type="file"] {
+      display: none;
+    }
+
+    .file-name {
+      display: block;
+      margin-top: 1rem;
+      color: #059669;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    /* Enhanced Image Preview */
+    .image-preview {
+      margin: 2rem 0;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border: 3px solid #dcfce7;
+    }
+
+    .image-preview img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      max-height: 300px;
+      object-fit: cover;
+    }
+
+    /* Enhanced Buttons */
+    .predict-btn {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      border: none;
+      padding: 1.25rem 2.5rem;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 1rem 0.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .predict-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    }
+
+    .predict-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Enhanced Results */
+    .prediction-result {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border-radius: 12px;
+      border-left: 4px solid #22c55e;
+      color: #166534;
+      font-weight: 500;
+      line-height: 1.6;
+      white-space: pre-line;
+      text-align: left;
+    }
+
+    /* Success States */
+    .success-result {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border-left-color: #22c55e;
+      color: #166534;
+    }
+
+    .error-result {
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border-left-color: #ef4444;
+      color: #991b1b;
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 0.5rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .pest-container {
+        padding: 1rem;
+      }
+      
+      .pest-card {
+        padding: 2rem;
+        border-radius: 16px;
+      }
+      
+      .pest-title {
+        font-size: 1.5rem;
+      }
+      
+      .custom-file-upload {
+        padding: 1.25rem 2rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Elements -->
+  <div class="floating-element floating-leaf-1">🌿</div>
+  <div class="floating-element floating-leaf-2">🍃</div>
+  <div class="floating-element floating-leaf-3">🌱</div>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-logo" style="cursor:pointer;" onclick="window.location.href='/'">
+      <span class="logo-icon">🌿</span> AgriGuard
+    </div>
+    
+    <div class="navbar-buttons">
+      <button class="btn-get-started" id="homeBtn">🏠 Home</button>
+    </div>
+  </nav>
+
+  <script>
+    document.getElementById("homeBtn").addEventListener("click", () => {
+      window.location.href = "/";
+    });
+  </script>
+
+  <!-- Upload Section -->
+  <div class="pest-container">
+    <div class="pest-card">
+      <h2 class="pest-title">AI Pest Detection System</h2>
+      <p class="pest-subtitle">Upload an image of a pest or affected plant to get instant identification and treatment recommendations using our advanced Vision Transformer model.</p>
+
+      <label class="custom-file-upload">
+        <input type="file" id="fileInput" accept="image/*" />
+        Choose Pest Image
+      </label>
+      <span id="fileName" class="file-name"></span>
+
+      <div id="imagePreview" class="image-preview" style="display: none;">
+        <img id="previewImg" alt="Pest Preview" />
+      </div>
+
+      <button class="predict-btn" id="predictBtn">🔍 Analyze Image</button>
+      <p id="result" class="prediction-result" style="display: none;"></p>
+
+      <!-- View Details Button (Hidden by default) -->
+      <button id="viewDetailsBtn" class="predict-btn" style="display:none; background: linear-gradient(135deg, #059669, #047857);">📋 View Full Report</button>
+    </div>
+  </div>
+
+  <script>
+    const BACKEND_URL = "/predict";
+    let selectedFile = null;
+    let pestData = null; // store prediction data for redirect
+
+    const fileInput = document.getElementById("fileInput");
+    const fileName = document.getElementById("fileName");
+    const imagePreview = document.getElementById("imagePreview");
+    const previewImg = document.getElementById("previewImg");
+    const predictBtn = document.getElementById("predictBtn");
+    const resultText = document.getElementById("result");
+    const viewDetailsBtn = document.getElementById("viewDetailsBtn");
+
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        selectedFile = file;
+        fileName.textContent = file.name;
+        previewImg.src = URL.createObjectURL(file);
+        imagePreview.style.display = "block";
+        resultText.innerText = "";
+        viewDetailsBtn.style.display = "none"; // hide details button when new file selected
+      }
+    });
+
+    predictBtn.addEventListener("click", async () => {
+      if (!selectedFile) {
+        const result = document.getElementById("result");
+        result.style.display = "block";
+        result.className = "prediction-result error-result";
+        result.innerText = "⚠️ Please upload a pest image first!";
+        return;
+      }
+
+      // Show loading state
+      predictBtn.disabled = true;
+      predictBtn.innerHTML = '<span class="loading"></span>Analyzing Image...';
+      
+      const result = document.getElementById("result");
+      result.style.display = "block";
+      result.className = "prediction-result";
+      result.innerText = "🔍 Our AI is analyzing your image... This may take a few seconds.";
+
+      let formData = new FormData();
+      formData.append("image", selectedFile);
+
+      try {
+        let res = await fetch(BACKEND_URL, { method: "POST", body: formData });
+        let data = await res.json();
+
+        if (res.ok && data.prediction) {
+          let predictionText = "";
+          result.className = "prediction-result success-result";
+
+          if (typeof data.confidence !== "undefined") {
+            predictionText += `🎯 Confidence Score: ${(data.confidence * 100).toFixed(2)}%\n\n`;
+          }
+
+          if (data.prediction.toLowerCase() !== "not a pest") {
+            predictionText = `✅ Pest Identified: ${data.prediction}\n\n` + predictionText;
+            pestData = data; // store for redirection
+
+            if (data.description) {
+              predictionText += `📖 Description: ${data.description}\n\n`;
+            }
+            
+            if (data.prevention) {
+              predictionText += `🛡️ Prevention Tips: ${data.prevention}`;
+            }
+
+            viewDetailsBtn.style.display = "inline-block";
+          } else {
+            predictionText = `✅ Result: ${data.prediction}\n\n` + predictionText;
+            predictionText += "🌱 Great news! No harmful pests detected in your image.";
+            viewDetailsBtn.style.display = "none";
+          }
+
+          result.innerText = predictionText;
+          result.innerText = predictionText;
+        } else {
+          result.className = "prediction-result error-result";
+          result.innerText = "❌ Error: " + (data.error || "Unable to process the image. Please try again.");
+        }
+      } catch (err) {
+        console.error(err);
+        result.className = "prediction-result error-result";
+        result.innerText = "❌ Failed to connect to server. Please check your connection and try again.";
+      } finally {
+        // Reset button state
+        predictBtn.disabled = false;
+        predictBtn.innerHTML = '🔍 Analyze Image';
+      }
+    });
+
+    // Redirect to description page on button click
+    viewDetailsBtn.addEventListener("click", () => {
+      if (pestData) {
+        window.location.href = `/Description?name=${encodeURIComponent(pestData.prediction)}&confidence=${encodeURIComponent(pestData.confidence)}&description=${encodeURIComponent(pestData.description)}&prevention=${encodeURIComponent(pestData.prevention)}`;
+      }
+    });
+  </script>
+</body>
+</html>

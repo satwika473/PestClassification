@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pest Details</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 50px auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+    }
+    .confidence {
+      text-align: center;
+      font-weight: bold;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    .section h3 {
+      color: #444;
+      border-left: 4px solid #2e7d32;
+      padding-left: 10px;
+    }
+    .section p {
+      color: #333;
+      line-height: 1.5;
+    }
+    .back-btn {
+      display: block;
+      width: 150px;
+      margin: 20px auto;
+      padding: 10px;
+      background: #2e7d32;
+      color: white;
+      text-align: center;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    .back-btn:hover {
+      background: #256428;
+    }
+  </style>
+</head>
+<body>
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='Navbar.css') }}">
+  <nav class="navbar">
+    <div class="navbar-logo" style="cursor:pointer;" onclick="window.location.href='/'">
+      <span class="logo-icon">🌿</span> AgriGuard
+    </div>
+    <ul class="navbar-links">
+      <li><a href="/">Features</a></li>
+      <li><a href="/">Reach Us</a></li>
+    </ul>
+  
+    <div class="navbar-buttons">
+      <button class="btn-get-started" id="loginBtn">Login</button>
+    </div>
+    <div class="navbar-buttons">
+      <button class="btn-get-started" id="signupBtn">Sign Up</button>
+    </div>
+  </nav>
+
+  <script>
+    document.getElementById("loginBtn").addEventListener("click", function () {
+      window.location.href = "/login"; // Change to your login page path
+    });
+
+    document.getElementById("signupBtn").addEventListener("click", function () {
+      window.location.href = "/signup"; // Change to your signup page path
+    });
+  </script>
+  <div class="container">
+    <h1 id="pestName">Pest Name</h1>
+    <div class="confidence" id="confidence"></div>
+
+    <div class="section">
+      <h3>Description</h3>
+      <p id="description"></p>
+    </div>
+
+    <div class="section">
+      <h3>Preventive Measures</h3>
+      <p id="prevention"></p>
+    </div>
+
+    <a href="/upload" class="back-btn">🔙 Back</a>
+  </div>
+
+  <script>
+    // Function to get URL query params
+    function getQueryParam(key) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(key) || "";
+    }
+
+    // Fill data from URL
+    document.getElementById("pestName").innerText = getQueryParam("name");
+    document.getElementById("confidence").innerText = "Confidence: " + (parseFloat(getQueryParam("confidence")) * 100).toFixed(2) + "%";
+    document.getElementById("description").innerText = getQueryParam("description");
+    document.getElementById("prevention").innerText = getQueryParam("prevention");
+  </script>
+</body>
+</html>

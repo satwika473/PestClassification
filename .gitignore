@@ -1,0 +1,12 @@
+# Ignore model files
+*.pth
+__pycache__/
+*.pyc
+
+# Ignore environment files
+venv/
+env/
+.env
+
+# Ignore system files
+.DS_Store
