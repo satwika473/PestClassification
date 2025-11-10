@@ -86,6 +86,19 @@ def download_file_from_google_drive(file_id, destination):
 
     def save_response_content(response, destination):
         CHUNK_SIZE = 32768
+
+        # Check if the response is the Google Drive warning page
+        if 'Content-Disposition' not in response.headers:
+            # If we don't get the file directly, we need to confirm the download
+            if 'confirm=' in response.text:
+                print("Large file detected, handling confirmation...")
+                # Get the confirmation token
+                import re
+                confirm_token = re.search(r'"([^"]+)"', response.text).group(1)
+                # Make a new request with the confirmation token
+                params = {'id': file_id, 'confirm': confirm_token}
+                response = session.get(URL, params=params, stream=True)
+
         with open(destination, "wb") as f:
             for chunk in response.iter_content(CHUNK_SIZE):
                 if chunk:
@@ -103,7 +116,19 @@ def download_file_from_google_drive(file_id, destination):
         response = session.get(URL, params=params, stream=True)
 
     save_response_content(response, destination)
-    print("Model downloaded successfully!")
+
+    # Verify the downloaded file is a valid PyTorch model
+    try:
+        with open(destination, 'rb') as f:
+            # Check if it's an HTML page
+            content_start = f.read(10).decode('utf-8', errors='ignore')
+            if '<' in content_start:
+                raise ValueError("Downloaded content appears to be HTML, not a model file")
+        print("Model downloaded successfully!")
+    except Exception as e:
+        if os.path.exists(destination):
+            os.remove(destination)
+        raise ValueError(f"Invalid model file downloaded: {str(e)}")
 
 if not os.path.exists(model_path):
     MODEL_URL = os.environ.get('MODEL_URL')
