@@ -1,5 +1,4 @@
 import os
-from dotenv import load_dotenv
 import json
 import torch
 import torch.nn as nn
@@ -8,11 +7,6 @@ import torchvision.transforms as T
 from PIL import Image
 from flask import Flask, request, jsonify, render_template, send_file
 from flask_cors import CORS
-import requests
-from urllib.parse import urlparse, parse_qs
-
-# Load environment variables from .env file
-load_dotenv()
 
 # --- Model Definition ---
 class InsectModel(nn.Module):
@@ -77,87 +71,13 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = InsectModel(num_classes=len(class_names))
 model_path = os.path.join(os.path.dirname(__file__), "vit_best.pth")
 
-def download_file_from_google_drive(file_id, destination):
-    def get_confirm_token(response):
-        for key, value in response.cookies.items():
-            if key.startswith('download_warning'):
-                return value
-        return None
-
-    def save_response_content(response, destination):
-        CHUNK_SIZE = 32768
-
-        # Check if the response is the Google Drive warning page
-        if 'Content-Disposition' not in response.headers:
-            # If we don't get the file directly, we need to confirm the download
-            if 'confirm=' in response.text:
-                print("Large file detected, handling confirmation...")
-                # Get the confirmation token
-                import re
-                confirm_token = re.search(r'"([^"]+)"', response.text).group(1)
-                # Make a new request with the confirmation token
-                params = {'id': file_id, 'confirm': confirm_token}
-                response = session.get(URL, params=params, stream=True)
-
-        with open(destination, "wb") as f:
-            for chunk in response.iter_content(CHUNK_SIZE):
-                if chunk:
-                    f.write(chunk)
-
-    URL = "https://drive.google.com/uc?export=download"
-    session = requests.Session()
-
-    print(f"Downloading model file from Google Drive (id: {file_id})...")
-    response = session.get(URL, params={'id': file_id}, stream=True)
-    token = get_confirm_token(response)
-
-    if token:
-        params = {'id': file_id, 'confirm': token}
-        response = session.get(URL, params=params, stream=True)
-
-    save_response_content(response, destination)
-
-    # Verify the downloaded file is a valid PyTorch model
-    try:
-        with open(destination, 'rb') as f:
-            # Check if it's an HTML page
-            content_start = f.read(10).decode('utf-8', errors='ignore')
-            if '<' in content_start:
-                raise ValueError("Downloaded content appears to be HTML, not a model file")
-        print("Model downloaded successfully!")
-    except Exception as e:
-        if os.path.exists(destination):
-            os.remove(destination)
-        raise ValueError(f"Invalid model file downloaded: {str(e)}")
-
 if not os.path.exists(model_path):
-    MODEL_URL = os.environ.get('MODEL_URL')
-    if not MODEL_URL:
-        raise ValueError("MODEL_URL environment variable is not set")
+    raise FileNotFoundError(f"Model file not found: {model_path}")
 
-    # Extract file ID from Google Drive URL
-    if 'drive.google.com' in MODEL_URL:
-        try:
-            parsed = urlparse(MODEL_URL)
-            if 'id' in parse_qs(parsed.query):
-                file_id = parse_qs(parsed.query)['id'][0]
-            else:
-                file_id = parsed.path.split('/')[-2]
-            download_file_from_google_drive(file_id, model_path)
-        except Exception as e:
-            raise Exception(f"Failed to download model from Google Drive: {str(e)}")
-    else:
-        raise ValueError("MODEL_URL must be a Google Drive link")
-
-try:
-    state_dict = torch.load(model_path, map_location=device)
-    model.load_state_dict(state_dict)
-    model.to(device)
-    model.eval()
-except Exception as e:
-    if os.path.exists(model_path):
-        os.remove(model_path)  # Remove potentially corrupted file
-    raise Exception(f"Error loading model: {str(e)}")
+state_dict = torch.load(model_path, map_location=device)
+model.load_state_dict(state_dict)
+model.to(device)
+model.eval()
 
 # --- Image Preprocessing ---
 transform = T.Compose([
