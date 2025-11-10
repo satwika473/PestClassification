@@ -75,38 +75,62 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = InsectModel(num_classes=len(class_names))
 model_path = os.path.join(os.path.dirname(__file__), "vit_best.pth")
 
-if not os.path.exists(model_path):
-    import requests
-    from urllib.parse import urlparse, parse_qs
+def download_file_from_google_drive(file_id, destination):
+    def get_confirm_token(response):
+        for key, value in response.cookies.items():
+            if key.startswith('download_warning'):
+                return value
+        return None
 
-    print("Downloading model file...")
+    def save_response_content(response, destination):
+        CHUNK_SIZE = 32768
+        with open(destination, "wb") as f:
+            for chunk in response.iter_content(CHUNK_SIZE):
+                if chunk:
+                    f.write(chunk)
+
+    URL = "https://drive.google.com/uc?export=download"
+    session = requests.Session()
+
+    print(f"Downloading model file from Google Drive (id: {file_id})...")
+    response = session.get(URL, params={'id': file_id}, stream=True)
+    token = get_confirm_token(response)
+
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = session.get(URL, params=params, stream=True)
+
+    save_response_content(response, destination)
+    print("Model downloaded successfully!")
+
+if not os.path.exists(model_path):
     MODEL_URL = os.environ.get('MODEL_URL')
     if not MODEL_URL:
         raise ValueError("MODEL_URL environment variable is not set")
 
-    # Handle Google Drive links
+    # Extract file ID from Google Drive URL
     if 'drive.google.com' in MODEL_URL:
-        parsed = urlparse(MODEL_URL)
-        if 'id' in parse_qs(parsed.query):
-            file_id = parse_qs(parsed.query)['id'][0]
-        else:
-            file_id = parsed.path.split('/')[-2]
-        MODEL_URL = f'https://drive.google.com/uc?export=download&id={file_id}'
-
-    response = requests.get(MODEL_URL, stream=True)
-    if response.status_code == 200:
-        with open(model_path, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                if chunk:
-                    f.write(chunk)
-        print("Model downloaded successfully!")
+        try:
+            parsed = urlparse(MODEL_URL)
+            if 'id' in parse_qs(parsed.query):
+                file_id = parse_qs(parsed.query)['id'][0]
+            else:
+                file_id = parsed.path.split('/')[-2]
+            download_file_from_google_drive(file_id, model_path)
+        except Exception as e:
+            raise Exception(f"Failed to download model from Google Drive: {str(e)}")
     else:
-        raise FileNotFoundError(f"Failed to download model: {response.status_code}")
+        raise ValueError("MODEL_URL must be a Google Drive link")
 
-state_dict = torch.load(model_path, map_location=device)
-model.load_state_dict(state_dict)
-model.to(device)
-model.eval()
+try:
+    state_dict = torch.load(model_path, map_location=device)
+    model.load_state_dict(state_dict)
+    model.to(device)
+    model.eval()
+except Exception as e:
+    if os.path.exists(model_path):
+        os.remove(model_path)  # Remove potentially corrupted file
+    raise Exception(f"Error loading model: {str(e)}")
 
 # --- Image Preprocessing ---
 transform = T.Compose([
