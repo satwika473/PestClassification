@@ -8,6 +8,8 @@ import torchvision.transforms as T
 from PIL import Image
 from flask import Flask, request, jsonify, render_template, send_file
 from flask_cors import CORS
+import requests
+from urllib.parse import urlparse, parse_qs
 
 # Load environment variables from .env file
 load_dotenv()
