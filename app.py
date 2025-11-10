@@ -71,18 +71,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = InsectModel(num_classes=len(class_names))
 model_path = os.path.join(os.path.dirname(__file__), "vit_best.pth")
 
-# Download model if it doesn't exist
 if not os.path.exists(model_path):
-    import requests
-    print("Downloading model file...")
-    MODEL_URL = os.environ.get('MODEL_URL', 'YOUR_GOOGLE_DRIVE_DIRECT_LINK')  # You'll need to set this in Render
-    response = requests.get(MODEL_URL)
-    if response.status_code == 200:
-        with open(model_path, 'wb') as f:
-            f.write(response.content)
-        print("Model downloaded successfully!")
-    else:
-        raise FileNotFoundError(f"Failed to download model: {response.status_code}")
+    raise FileNotFoundError(f"Model file not found: {model_path}")
 
 state_dict = torch.load(model_path, map_location=device)
 model.load_state_dict(state_dict)
@@ -197,6 +187,5 @@ def predict():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    print("🚀 Server running at: http://127.0.0.1:5000")
     app.run(host="0.0.0.0", port=5000, debug=True)

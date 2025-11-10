@@ -1,9 +1,0 @@
-[build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[project]
-name = "pest-classification"
-version = "1.0.0"
-description = "Pest Classification Web Application"
-requires-python = ">=3.9,<3.10"
