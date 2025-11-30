@@ -432,7 +432,6 @@ def generate_results_table(results):
     return html
 
 
-// ...existing code...
 if __name__ == "__main__":
     print("🚀 Server running at: http://127.0.0.1:5000")
     # Add a check for the pesticides folder on startup
