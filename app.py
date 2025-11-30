@@ -432,6 +432,7 @@ def generate_results_table(results):
     return html
 
 
+// ...existing code...
 if __name__ == "__main__":
     print("🚀 Server running at: http://127.0.0.1:5000")
     # Add a check for the pesticides folder on startup
@@ -443,4 +444,6 @@ if __name__ == "__main__":
         print(f"⚠️  Pesticides folder not found at: {pesticides_folder}")
         print("   Please create the folder and add pesticide images for them to appear.")
     
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    # Get port from environment variable for production
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
