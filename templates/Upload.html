@@ -229,8 +229,6 @@
                     </div>
                     ` : ''}
                     
-                    <!-- The pesticide text block is now removed, only the image gallery below will be shown -->
-                    
                     ${pesticideGalleryHtml}
                     
                     <div style="margin-top: 2rem; text-align: center;">
@@ -273,6 +271,40 @@
                 analyzeBtn.textContent = '🔍 Analyze Image';
             }
         });
+
+        // Auto-load sample image if present in URL
+        window.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const sample = params.get('sample');
+            
+            if (!sample) return;
+
+            try {
+                const imageUrl = `/static/assets/${sample}`;
+                const response = await fetch(imageUrl);
+                if (!response.ok) throw new Error('Failed to load sample image');
+
+                const blob = await response.blob();
+                const file = new File([blob], sample, { type: blob.type });
+
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                const fileInput = document.getElementById('single-file-input');
+                fileInput.files = dataTransfer.files;
+
+                fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+                setTimeout(() => {
+                    document.getElementById('single-form')
+                        .dispatchEvent(new Event('submit', { bubbles: true }));
+                }, 800);
+
+            } catch (err) {
+                console.error(err);
+                showError("⚠️ Failed to auto-load sample image.");
+            }
+        });
     </script>
+
 </body>
 </html>

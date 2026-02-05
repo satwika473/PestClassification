@@ -242,6 +242,24 @@
 .pest-category {
   color: #a16207;
   font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.try-now-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.try-now-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 @keyframes fadeInUp {
@@ -341,13 +359,13 @@
       </div>
       <div class="content-image">
         <div class="sample-grid">
-          <img src="https://images.unsplash.com/photo-1628944682084-831f35256163?w=300&h=200&fit=crop" 
+          <img src="{{ url_for('static', filename='assets/download.jpg') }}" 
                alt="Agricultural pest sample" class="sample-image" />
-          <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=300&h=200&fit=crop" 
+          <img src="{{ url_for('static', filename='assets/Bemisia tabaci.jpg') }}" 
                alt="Crop inspection" class="sample-image" />
-          <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=200&fit=crop" 
+          <img src="{{ url_for('static', filename='assets/Dolycoris baccarum.jpg') }}" 
                alt="Healthy crops" class="sample-image" />
-          <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=300&h=200&fit=crop" 
+          <img src="{{ url_for('static', filename='assets/Scotinophara lurida.jpg') }}" 
                alt="Smart farming" class="sample-image" />
         </div>
       </div>
@@ -356,42 +374,33 @@
     <div class="pest-gallery">
       <h2 class="gallery-title">🦗 Sample Pest Species in Dataset</h2>
       <div class="gallery-grid">
-        <div class="pest-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Pentatomidae_-_Dolycoris_baccarum-001.JPG/1200px-Pentatomidae_-_Dolycoris_baccarum-001.JPG" 
-               alt="Dolycoris baccarum" class="pest-image" />
-          <div class="pest-name">Dolycoris baccarum</div>
-          <div class="pest-category">Shield Bug</div>
-        </div>
-        <div class="pest-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Nilaparvata_lugens_439632934.jpg/500px-Nilaparvata_lugens_439632934.jpg" 
-               alt="Nilaparvata lugens" class="pest-image" />
-          <div class="pest-name">Nilaparvata lugens</div>
-          <div class="pest-category">Brown Planthopper</div>
-        </div>
-        <div class="pest-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Scotinophara_coarctata_%28Fabricius%2C_1798%29.png/500px-Scotinophara_coarctata_%28Fabricius%2C_1798%29.png" 
-               alt="Scotinophara lurida" class="pest-image" />
-          <div class="pest-name">Scotinophara lurida</div>
-          <div class="pest-category">Black Bug</div>
-        </div>
-        <div class="pest-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Silverleaf_whitefly.jpg/500px-Silverleaf_whitefly.jpg" 
-               alt="Bemisia tabaci" class="pest-image" />
-          <div class="pest-name">Bemisia tabaci</div>
-          <div class="pest-category">Whitefly</div>
-        </div>
-        <div class="pest-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Spodoptera_litura_%2824045593674%29.jpg/500px-Spodoptera_litura_%2824045593674%29.jpg" 
-               alt="Spodoptera litura" class="pest-image" />
-          <div class="pest-name">Spodoptera litura</div>
-          <div class="pest-category">Armyworm</div>
-        </div>
-        <div class="pest-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Pieris_sp_3.jpg/500px-Pieris_sp_3.jpg" 
-               alt="Pieris rapae" class="pest-image" />
-          <div class="pest-name">Pieris rapae</div>
-          <div class="pest-category">Cabbage White</div>
-        </div>
+     <div class="pest-card">
+  <img src="{{ url_for('static', filename='assets/Dolycoris baccarum.jpg') }}"
+       class="pest-image">
+  <div class="pest-name">Dolycoris baccarum</div>
+  <div class="pest-category">Shield Bug</div>
+  <a href="{{ url_for('upload_page', sample='Dolycoris baccarum.jpg') }}"
+     class="try-now-btn">Try Now</a>
+</div>
+
+<div class="pest-card">
+  <img src="{{ url_for('static', filename='assets/Scotinophara lurida.jpg') }}"
+       class="pest-image">
+  <div class="pest-name">Scotinophara lurida</div>
+  <div class="pest-category">Black Bug</div>
+  <a href="{{ url_for('upload_page', sample='Scotinophara lurida.jpg') }}"
+     class="try-now-btn">Try Now</a>
+</div>
+
+<div class="pest-card">
+  <img src="{{ url_for('static', filename='assets/Bemisia tabaci.jpg') }}"
+       class="pest-image">
+  <div class="pest-name">Bemisia tabaci</div>
+  <div class="pest-category">Whitefly</div>
+  <a href="{{ url_for('upload_page', sample='Bemisia tabaci.jpg') }}"
+     class="try-now-btn">Try Now</a>
+</div>
+
       </div>
     </div>
 

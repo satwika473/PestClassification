@@ -189,7 +189,9 @@ def home():
 
 @app.route("/upload")
 def upload_page():
-    return render_template("Upload.html")
+    sample = request.args.get("sample")
+    return render_template("Upload.html", sample=sample)
+
 
 @app.route("/Description")
 def description_page():
