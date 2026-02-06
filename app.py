@@ -231,9 +231,133 @@ def predict():
             except:
                 pass
 
-# Simplified batch processing
+# Simplified batch prediction route
 @app.route("/predict-batch", methods=["POST"])
 def predict_batch():
+    if "images" not in request.files:
+        return "No images selected", 400
+
+    files = request.files.getlist("images")
+
+    results = []
+    total = pest_count = clean_count = error_count = 0
+
+    for file in files:
+        if not file.filename.lower().endswith(('.jpg', '.jpeg', '.png')):
+            continue
+
+        total += 1
+
+        # Read image bytes ONCE
+        image_bytes = file.read()
+
+        # Convert to Base64 for browser display
+        image_base64 = base64.b64encode(image_bytes).decode("utf-8")
+        image_data_url = f"data:image/jpeg;base64,{image_base64}"
+
+        # Save temp file for model
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as temp:
+            temp.write(image_bytes)
+            temp_path = temp.name
+
+        try:
+            result = predict_image(temp_path)
+
+            if result["is_pest"]:
+                pest_count += 1
+            else:
+                clean_count += 1
+
+            results.append({
+                "filename": file.filename,
+                "image_url": image_data_url,
+                "prediction": result["prediction"],
+                "is_pest": result["is_pest"],
+                "confidence": result["confidence"],
+                "description": result["description"]
+            })
+
+        except Exception as e:
+            error_count += 1
+            results.append({
+                "filename": file.filename,
+                "image_url": image_data_url,
+                "prediction": "Error",
+                "is_pest": False,
+                "confidence": 0,
+                "description": str(e)
+            })
+
+        finally:
+            os.remove(temp_path)
+
+    return render_template(
+        "batch_results.html",
+        results=results,
+        total=total,
+        pest_count=pest_count,
+        clean_count=clean_count,
+        error_count=error_count
+    )
+    results = []
+    total = 0
+    pest_count = 0
+    clean_count = 0
+    error_count = 0
+
+    for file in files:
+        if not file.filename.lower().endswith(('.jpg', '.jpeg', '.png', '.bmp', '.gif')):
+            continue
+
+        total += 1
+
+        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1]) as temp_file:
+            file.save(temp_file.name)
+            temp_path = temp_file.name
+
+        try:
+            result = predict_image(temp_path)
+
+            if result["is_pest"]:
+                pest_count += 1
+            else:
+                clean_count += 1
+
+            results.append({
+                "filename": file.filename,
+                "prediction": result["prediction"],
+                "is_pest": result["is_pest"],
+                "confidence": result["confidence"],
+                "description": result["description"],
+                "image_url": None  # optional, you can add previews later
+            })
+
+        except Exception as e:
+            error_count += 1
+            results.append({
+                "filename": file.filename,
+                "prediction": "Error",
+                "is_pest": False,
+                "confidence": 0,
+                "description": str(e),
+                "image_url": None
+            })
+
+        finally:
+            try:
+                os.remove(temp_path)
+            except:
+                pass
+
+    return render_template(
+        "batch_results.html",
+        results=results,
+        total=total,
+        pest_count=pest_count,
+        clean_count=clean_count,
+        error_count=error_count
+    )
+
     if "images" not in request.files:
         return "No images selected", 400
     

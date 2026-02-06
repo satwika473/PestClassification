@@ -41,7 +41,128 @@
         .section-header { display: flex; align-items: center; margin: 1.5rem 0 1rem 0; font-size: 1rem; font-weight: 600; color: #374151; }
         .section-header span { margin-right: 0.5rem; }
         .section-header::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; margin-left: 1rem; }
-   
+   /* ===================== */
+/* Batch Results Styling */
+/* ===================== */
+
+.batch-results-container {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.batch-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.batch-header h2 {
+    color: #047857;
+    font-size: 1.8rem;
+}
+
+.batch-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.summary-card {
+    padding: 1.5rem;
+    border-radius: 14px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.summary-card.total { background: #ecfeff; color: #0369a1; }
+.summary-card.pest { background: #fef2f2; color: #b91c1c; }
+.summary-card.clean { background: #f0fdf4; color: #15803d; }
+.summary-card.error { background: #fff7ed; color: #c2410c; }
+
+.summary-card span {
+    display: block;
+    font-size: 2rem;
+    margin-top: 0.5rem;
+}
+
+/* Batch Table */
+
+.batch-table-wrapper {
+    overflow-x: auto;
+}
+
+.batch-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.batch-table th {
+    background: #f1f5f9;
+    padding: 12px;
+    text-align: left;
+    color: #334155;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.batch-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+}
+
+.batch-table tr:hover {
+    background: #f8fafc;
+}
+
+.batch-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+.pest-label {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.clean-label {
+    color: #16a34a;
+    font-weight: 600;
+}
+
+.confidence-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-weight: 600;
+}
+
+.batch-description {
+    max-width: 380px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+/* Batch Action Buttons */
+
+.batch-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2.5rem;
+}
+
    </style>
 </head>
 <body>
@@ -81,7 +202,7 @@
                         </div>
                         <div id="loading" class="loading">
                             <div class="spinner"></div>
-                            <p>🔍 Analyzing image with AI...</p>
+                            <p>🔍 Analyzing image...</p>
                         </div>
                         <div id="error-message" class="error-message"></div>
                         <div id="success-message" class="success-message"></div>
@@ -95,17 +216,121 @@
                 </div>
             </div>
             
-            <div id="batch-upload" class="tab-content">
-                <div class="upload-section">
-                    <h3>📁 Upload Folder of Images</h3>
-                    <p>Select a folder containing multiple images for batch analysis</p>
-                    <form action="/predict-batch" method="POST" enctype="multipart/form-data">
-                        <input type="file" name="images" webkitdirectory directory multiple class="file-input" required>
-                        <br>
-                        <button type="submit" class="upload-btn">🚀 Analyze Batch</button>
-                    </form>
-                </div>
+          <div id="batch-upload" class="tab-content">
+
+    <!-- Upload Section -->
+    <div class="upload-section">
+        <h3>📁 Batch Pest Detection</h3>
+        <p>Upload a folder of images for bulk pest analysis</p>
+
+        <form action="/predict-batch" method="POST" enctype="multipart/form-data">
+            <input
+                type="file"
+                name="images"
+                webkitdirectory
+                directory
+                multiple
+                class="file-input"
+                required
+            />
+
+            <div style="margin-top: 1rem; color: #6b7280; font-size: 0.9rem;">
+                ✔ Folder upload only <br>
+                ✔ JPG / PNG supported <br>
+                ✔ Max 10MB per image
             </div>
+
+            <br>
+            <button type="submit" class="upload-btn">
+                🚀 Analyze Batch Images
+            </button>
+        </form>
+    </div>
+
+    <!-- Batch Results (Rendered after submit) -->
+    {% if results %}
+    <div class="batch-results-container">
+
+        <div class="batch-header">
+            <h2>🧪 Batch Pest Detection Results</h2>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="batch-summary">
+            <div class="summary-card total">
+                Total Images
+                <span>{{ total }}</span>
+            </div>
+            <div class="summary-card pest">
+                Pests Detected
+                <span>{{ pest_count }}</span>
+            </div>
+            <div class="summary-card clean">
+                Clean Images
+                <span>{{ clean_count }}</span>
+            </div>
+            <div class="summary-card error">
+                Errors
+                <span>{{ error_count }}</span>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <div class="batch-table-wrapper">
+            <table class="batch-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Filename</th>
+                        <th>Detection Result</th>
+                        <th>Confidence</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in results %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <img src="{{ r.image_url }}" class="batch-image">
+                        </td>
+                        <td>{{ r.filename }}</td>
+                        <td>
+                            {% if r.is_pest %}
+                                <span class="pest-label">Pest: {{ r.prediction }}</span>
+                            {% else %}
+                                <span class="clean-label">Not a Pest</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="confidence-badge">
+                                {{ (r.confidence * 100) | round(2) }}%
+                            </span>
+                        </td>
+                        <td class="batch-description">
+                            {{ r.description }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="batch-actions">
+            <button onclick="window.location.reload()" class="upload-btn">
+                🔄 Upload More
+            </button>
+            <button onclick="window.location.href='/'" class="upload-btn">
+                🏠 Back to Home
+            </button>
+        </div>
+
+    </div>
+    {% endif %}
+</div>
+
         </div>
     </main>
 
